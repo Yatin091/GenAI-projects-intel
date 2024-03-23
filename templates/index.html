@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Result</title>
+</head>
+<body>
+    <h1>Search for Medicine</h1>
+    <form action="/" method="POST">
+        <label for="keyword">Enter a keyword:</label>
+        <input type="text" id="keyword" name="keyword">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if result is not none %}
+        {% if result.empty %}
+            <p>No medicine found for the given keyword.</p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Introduction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in result.iterrows() %}
+                        <tr>
+                            <td>{{ row['name'] }}</td>
+                            <td>{{ row['introduction'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
