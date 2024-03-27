@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor
-
 app = Flask(__name__)
+
 
 # Load the medical data from CSV file
 data = pd.read_csv('medicine.csv')
@@ -14,8 +14,8 @@ def find_medicine(input_word):
     # Define a function to search for the keyword in each row
     def search_in_row(row_index):
         row = data.iloc[row_index]
-        if input_word.lower() in row['introduction'].lower():
-            matching_rows.append(row[['name', 'introduction']])
+        if input_word.lower() in row['Uses'].lower():
+            matching_rows.append(row[['Medicine Name', 'Uses']])
 
     # Create a ThreadPoolExecutor with max_workers equal to the number of CPU cores
     with ThreadPoolExecutor() as executor:
@@ -23,7 +23,7 @@ def find_medicine(input_word):
         executor.map(search_in_row, range(len(data)))
 
     if matching_rows:
-        return pd.concat(matching_rows[:3])  # Concatenate and return top 3 matching medicines
+            return pd.concat(matching_rows[:1])  # Concatenate and return top 1 matching medicine
     else:
         return "No medicine found for the given keyword."
 
